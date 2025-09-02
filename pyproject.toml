@@ -1,0 +1,18 @@
+[project]
+name = "psp"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "psp-core",
+    "psp-dsp",
+    "psp-plotting",
+    "psp-relay",
+]
+
+[tool.uv.sources]
+psp-relay = { git = "https://github.com/U-RxI/psp-relay" }
+psp-plotting = { git = "https://github.com/U-RxI/psp-plotting" }
+psp-dsp = { git = "https://github.com/U-RxI/psp-dsp" }
+psp-core = { git = "https://github.com/U-RxI/psp-core" }
