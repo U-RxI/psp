@@ -422,7 +422,7 @@ dependencies = [
 [[package]]
 name = "psp-plotting"
 version = "0.1.0"
-source = { git = "https://github.com/U-RxI/psp-plotting#121a2a0ea8456d8b32995894ef0e21c6f19f4e7a" }
+source = { git = "https://github.com/U-RxI/psp-plotting#c3b73fc03ee140e9b190f8e081ccc7b77ca3070d" }
 dependencies = [
     { name = "matplotlib" },
     { name = "numpy" },
