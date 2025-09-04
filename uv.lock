@@ -404,7 +404,7 @@ requires-dist = [
 [[package]]
 name = "psp-core"
 version = "0.1.0"
-source = { git = "https://github.com/U-RxI/psp-core#17e5dd067528b5e14cdaaf9995c6d43a3a14bab6" }
+source = { git = "https://github.com/U-RxI/psp-core#877f8f1f96d456778f18b696055fea3c99c575d7" }
 dependencies = [
     { name = "numpy" },
     { name = "shapely" },
@@ -422,7 +422,7 @@ dependencies = [
 [[package]]
 name = "psp-plotting"
 version = "0.1.0"
-source = { git = "https://github.com/U-RxI/psp-plotting#c3b73fc03ee140e9b190f8e081ccc7b77ca3070d" }
+source = { git = "https://github.com/U-RxI/psp-plotting#ea2080b24192c9e83316751ff84397ea2ca2e82a" }
 dependencies = [
     { name = "matplotlib" },
     { name = "numpy" },
