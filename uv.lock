@@ -443,7 +443,7 @@ dependencies = [
 [[package]]
 name = "psp-relay"
 version = "0.1.0"
-source = { git = "https://github.com/U-RxI/psp-relay#efe0a1e4bc48df1a8051e8cf73f1a4f473d423bf" }
+source = { git = "https://github.com/U-RxI/psp-relay#8cab5acceacf7f11c2a824a77119cbdfff89e7b4" }
 dependencies = [
     { name = "shapely" },
 ]
