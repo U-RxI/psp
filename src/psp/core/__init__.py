@@ -25,3 +25,5 @@ from . core import ( P2R,
                    calc_kn,
                    calc_RE_RL,
                    calc_XE_XL)
+
+__version__ = "0.1.0"
