@@ -8,6 +8,7 @@ Created on Thu Mar 10 09:14:56 2022
 from cmath import cos, sin, pi, phase
 from collections.abc import Iterable
 
+
 def P2R(magnitude: float, angle_deg: float) -> complex:
     """Convert Polar coordinates (r, \\phi) to Rectangular form (x + 1j*y)
 
@@ -32,7 +33,8 @@ def P2R(magnitude: float, angle_deg: float) -> complex:
     angle_rad = angle_deg / 180 * pi
     return magnitude * (cos(angle_rad) + 1j * sin(angle_rad))
 
-def angle_deg(z : complex) -> float:
+
+def angle_deg(z: complex) -> float:
     """Return phase angle in degrees
 
     Parameters
@@ -48,13 +50,14 @@ def angle_deg(z : complex) -> float:
     Example
     -------
     from protlib import angle_deg
-    
+
     angle_deg(1+1j) -> 45.0
     """
-    
+
     return phase(z) / pi * 180
 
-def rad2deg(ang : float) -> float:
+
+def rad2deg(ang: float) -> float:
     """Convert angle in radians to degree
 
     Parameters
@@ -66,17 +69,18 @@ def rad2deg(ang : float) -> float:
     -------
     float
         Angle in degree.
-    
+
     Example
     -------
     >>> from cmath import pi
     >>> print(rad2deg(pi))
     180.0
     """
-    
+
     return ang / pi * 180
 
-def deg2rad(ang : float) -> float:
+
+def deg2rad(ang: float) -> float:
     """Convert angle in degree to radian
 
     Parameters
@@ -88,7 +92,7 @@ def deg2rad(ang : float) -> float:
     -------
     float
         Angle in radian.
-    
+
     Example
     -------
     >>> print(deg2rad(180))
@@ -96,7 +100,8 @@ def deg2rad(ang : float) -> float:
     """
     return ang / 180 * pi
 
-def _polar_str(z: complex, nd : int) -> str:
+
+def _polar_str(z: complex, nd: int) -> str:
     """Convert a complex number to a string representing the polar coordinates.
 
     Parameters
@@ -117,18 +122,19 @@ def _polar_str(z: complex, nd : int) -> str:
     print( polar_str(1 + 1j) )
     print( polar_str(1 + 1j, nd = 1) )
     print( polar_str(P2R(1, 120)) )
-    
+
     # output
     1.41∠45.00°
     1.4∠45.0°
     1.00∠120.00°
-    
+
     """
     magnitude = abs(cround(z))
     angle = angle_deg(cround(z))
     if magnitude == 0:
         angle = 0
     return f"{magnitude:.{nd}f}\N{ANGLE}{angle:.{nd}f}\N{DEGREE SIGN}"
+
 
 def polar_str(z: complex | Iterable[complex, ...], nd: int = 2) -> str | list[str, ...]:
     """Convert a complex number or list of complex numbers to a string or list
@@ -154,43 +160,44 @@ def polar_str(z: complex | Iterable[complex, ...], nd: int = 2) -> str | list[st
     print( polar_str(P2R(1, 120)) )
     print( polar_str([P2R(1, 120), P2R(1, -120)]) )
     print( polar_str(P2R(1, 0) - P2R(1, -120) ) )
-    
+
     # output
     1.41∠45.00°
     1.4∠45.0°
     1.00∠120.00°
     ['1.00∠120.00°', '1.00∠-120.00°']
     1.73∠30.00°
-    
-    """
-    
-    if isinstance(z, complex):
 
+    """
+
+    if isinstance(z, complex):
         return _polar_str(z, nd)
-    
+
     elif isinstance(z, Iterable):
         result = []
         for cn in z:
             if not isinstance(cn, complex):
-              raise ValueError("Iterable must contain complex only")
-              
+                raise ValueError("Iterable must contain complex only")
+
             result.append(_polar_str(cn, nd))
-              
+
         return result
 
     else:
-        raise ValueError("Input 'z' must be a complex number"
-                         "or a iterble of complex numbers")
+        raise ValueError(
+            "Input 'z' must be a complex numberor a iterble of complex numbers"
+        )
+
 
 def symmetrical_components(
     A: complex, B: complex, C: complex
 ) -> tuple[complex, complex, complex]:
     """Calculates the symmetrical components for a 3 phase system.
-    
+
     This done by applying the inverse A matrix:
-        
+
         s_012 = A**(-1) * s_abc
-        
+
         A**(-1) = 1/3 * [ [1, 1, 1],
                         [1, a, a**2],
                         [1, a**2, a] ]
@@ -227,7 +234,7 @@ def symmetrical_components(
     0.00∠6.69°
     0.35∠-115.65°
     0.44∠124.34°
-    
+
     # Phase-Phase fault (high impedance grounded)
     # Voltages
     UA = P2R(0.0, 0)
@@ -237,7 +244,7 @@ def symmetrical_components(
     print(polar_str(3 * U0))
     print(polar_str(U1))
     print(polar_str(U2))
-    
+
     # output
     3.00∠180.00°
     1.00∠-0.00°
@@ -258,7 +265,10 @@ def symmetrical_components(
 
     return s0, s1, s2
 
-def polarizing(X_A : complex, X_B : complex, X_C : complex) -> tuple[complex, complex, complex]:
+
+def polarizing(
+    X_A: complex, X_B: complex, X_C: complex
+) -> tuple[complex, complex, complex]:
     """Returning polarized quantities for a three phase system.
     Parameters
     ----------
@@ -277,36 +287,41 @@ def polarizing(X_A : complex, X_B : complex, X_C : complex) -> tuple[complex, co
         DESCRIPTION.
     X_CA : complex
         DESCRIPTION.
-    
+
     Example
     -------
     from protlib import P2R, polarizing
-    
+
     V_AB, V_BC, V_CA = polarizing(P2R(1, 0), P2R(1, -120), P2R(1, 120))
     print(polar_str(V_AB))
     print(polar_str(V_BC))
     print(polar_str(V_CA))
-    
+
     # output
     1.73∠30.00°
     1.73∠-90.00°
     1.73∠150.00°
-    
+
     """
-    
+
     X_AB = X_A - X_B
     X_BC = X_B - X_C
     X_CA = X_C - X_A
-    
+
     return X_AB, X_BC, X_CA
+
 
 # Need some more testing
 def directional_generic(
-        X_pol : complex, X_op : complex, RCA : float, ROA : float,
-        phi_n : float, default : str, 
-        ) -> tuple[complex, complex, complex, complex, str]:
-    '''Generic implementation of a directional element. Suitable for phase,
-    zero-sequence and negative sequence. 
+    X_pol: complex,
+    X_op: complex,
+    RCA: float,
+    ROA: float,
+    phi_n: float,
+    default: str,
+) -> tuple[complex, complex, complex, complex, str]:
+    """Generic implementation of a directional element. Suitable for phase,
+    zero-sequence and negative sequence.
 
     Parameters
     ----------
@@ -322,12 +337,12 @@ def directional_generic(
     ROA : float
         Relay Open Angle [degrees].
         The angle defines the directional area as RCA +/- ROA.
-        Should not be more than 90 degrees. 
+        Should not be more than 90 degrees.
     phi_n : float
         Phase angle to normalize the polarizing quantity X_pol.
         E.g. if norm = -90 it places the phasor X_pol at the negative y-axis (-Im).
         All the other quantities are normalized by rotating with the phasor 1∠φ_n°.
-         
+
     default : str
         Default refers to the default direction.
         It should be either 'Forward', 'Backward' or 'Undefined'.
@@ -352,55 +367,59 @@ def directional_generic(
             Phasor to describe boundary of directional zone.
             b = a - 2*ROA
 
-    '''
-    
+    """
+
     # RCA leading or lagging? to be described
-    
+
     X_pol_n = P2R(abs(X_pol), phi_n)
-    
+
     # X_op rotated by -phi(X_pol), phi_n and -RCA
-    X_op_n = X_op * P2R(1, - ( angle_deg(X_pol) - phi_n )  ) * P2R(1, - RCA)
+    X_op_n = X_op * P2R(1, -(angle_deg(X_pol) - phi_n)) * P2R(1, -RCA)
     print(X_op_n)
-    print(X_op * P2R(1, - angle_deg(X_pol)) * P2R(1, phi_n) * P2R(1, - RCA))
-    print(X_op * P2R(1, - angle_deg(X_pol) + phi_n - RCA))
-    
+    print(X_op * P2R(1, -angle_deg(X_pol)) * P2R(1, phi_n) * P2R(1, -RCA))
+    print(X_op * P2R(1, -angle_deg(X_pol) + phi_n - RCA))
+
     # +-ROA rotaded with a normalzing phasor
     a = P2R(1, -ROA + phi_n)
     b = P2R(1, ROA + phi_n)
-    
+
     direction = default
-    
+
     if phase(a) < phase(X_op_n) < phase(b):
-        direction = 'Forward'
+        direction = "Forward"
 
     # X_op_n rotated 180 deg
     if phase(a) < phase(-X_op_n) < phase(b):
-        direction = 'Backward'
+        direction = "Backward"
 
     return X_pol_n, X_op_n, a, b, direction
 
-def neg_dir_ABB(V_2 : complex, I_2 : complex, RCA : float, ROA : float ):
-    V_pol_n, I_op_n, a, b, direction = directional_generic(X_pol = -V_2,
-                                                           X_op  =  I_2,
-                                                           RCA   = -RCA,
-                                                           ROA   =  ROA,
-                                                           phi_n  =  0,
-                                                           default   = 'Undefined' )
+
+def neg_dir_ABB(V_2: complex, I_2: complex, RCA: float, ROA: float):
+    V_pol_n, I_op_n, a, b, direction = directional_generic(
+        X_pol=-V_2, X_op=I_2, RCA=-RCA, ROA=ROA, phi_n=0, default="Undefined"
+    )
     return V_pol_n, I_op_n, a, b, direction
 
-def neg_dir_Siemens(V_2 : complex, I_2 : complex, alpha : float, beta : float ):
-    ROA = (beta + (360-alpha) )/ 2
-    RCA = beta-ROA # or alpha + ROA - 360
-    I_pol_n, U_op_n, alpha, beta, direction = directional_generic(X_pol = -I_2,
-                                                           X_op  =  V_2,
-                                                           RCA   =  RCA,
-                                                           ROA   =  ROA,
-                                                           phi_n   =  0,
-                                                           default   = 'Backward' )
+
+def neg_dir_Siemens(V_2: complex, I_2: complex, alpha: float, beta: float):
+    ROA = (beta + (360 - alpha)) / 2
+    RCA = beta - ROA  # or alpha + ROA - 360
+    I_pol_n, U_op_n, alpha, beta, direction = directional_generic(
+        X_pol=-I_2, X_op=V_2, RCA=RCA, ROA=ROA, phi_n=0, default="Backward"
+    )
     return U_op_n, I_pol_n, alpha, beta, direction
 
+
 ### Needs to be tested more
-def pos_dir_generic(U_f: complex, I_f: complex, alpha: float = -15, beta: float = 115, U_pre: complex = 0 + 0j, k: float = 1.0) -> tuple[complex, float, str]:
+def pos_dir_generic(
+    U_f: complex,
+    I_f: complex,
+    alpha: float = -15,
+    beta: float = 115,
+    U_pre: complex = 0 + 0j,
+    k: float = 1.0,
+) -> tuple[complex, float, str]:
     """Calculating reponse of directional element using positive sequence method
 
     Parameters
@@ -425,49 +444,53 @@ def pos_dir_generic(U_f: complex, I_f: complex, alpha: float = -15, beta: float 
         DESCRIPTION.
 
     """
-    
-    
-    #U_A = P2R(38.48, -3)
-    #I_A = P2R(1044, -40.85)
-    #dir_positive_seq(U_f = U_A, I_f = I_A)
-    
+
+    # U_A = P2R(38.48, -3)
+    # I_A = P2R(1044, -40.85)
+    # dir_positive_seq(U_f = U_A, I_f = I_A)
+
     U_pol = (1 - k) * U_pre + k * U_f
-    
+
     arg = phase(U_pol / I_f) / pi * 180
-    
+
     # normalized argument
     arg_norm = arg
     if arg < 0:
         arg_norm = 360 + arg
-        
-    direction = 'Undefined'
+
+    direction = "Undefined"
     if alpha < arg_norm < beta:
-        direction = 'Forward'
-        
+        direction = "Forward"
+
     if (alpha + 180) < arg_norm < (beta + 180):
-        direction = 'Backward'
+        direction = "Backward"
 
     return U_pol, arg, direction
 
-def reactance_method_pg(V_s: complex, I: complex , I_0: complex, Z_1L: complex, k : complex) -> float:
+
+def reactance_method_pg(
+    V_s: complex, I_P: complex, I_0: complex, Z_1L: complex, k: complex
+) -> float:
     # This is only intended for cables of same type.
     # Earth fault factor
-    
-    I_s = I + k * 3 * I_0
+
+    I_s = I_P + k * 3 * I_0
     m = (V_s / I_s).imag / Z_1L.imag
-   
+
     return m
 
-def modi_takagi(V_s, I, I0, I2, Z_1L, k):
+
+def modi_takagi(V_s, I_P, I0, I2, Z_1L, k):
     # source: 6654_TutorialFault_NF_20140312_Web.pdf
-    
-    I_s = I + 3 * I0 * k
+
+    I_s = I_P + 3 * I0 * k
     Iconj = I2.conjugate()
-    m = (V_s*Iconj).imag/(Z_1L*I_s*Iconj).imag
+    m = (V_s * Iconj).imag / (Z_1L * I_s * Iconj).imag
     return m
 
-def cround(x:complex, nd:int = 10):
-    """ Function to round complex numbers.
+
+def cround(x: complex, nd: int = 10):
+    """Function to round complex numbers.
 
     Parameters
     ----------
@@ -480,42 +503,51 @@ def cround(x:complex, nd:int = 10):
     -------
     complex
         Rounded complex number.
-    
+
     Example
     -------
     from protlib import cround
-    
+
     print(cround(1.12345 + 1.12345j, nd = 2))
-    
+
     # output
     (1.12+1.12j)
 
     """
-    return complex(round(x.real, nd),round(x.imag, nd))
+    return complex(round(x.real, nd), round(x.imag, nd))
 
-def zeroseq2phase(U0 : complex, I0 : complex) -> tuple[complex, complex, complex, complex, complex, complex]:
+
+def zeroseq2phase(
+    U0: complex, I0: complex
+) -> tuple[complex, complex, complex, complex, complex, complex]:
     UL1_E = UL2_E = UL3_E = U0
     IL1 = IL2 = IL3 = I0
     return UL1_E, UL2_E, UL3_E, IL1, IL2, IL3
 
-def negseq2phase(U2 : complex, I2 : complex) -> tuple[complex, complex, complex, complex, complex, complex]:
+
+def negseq2phase(
+    U2: complex, I2: complex
+) -> tuple[complex, complex, complex, complex, complex, complex]:
     UL1_E, UL2_E, UL3_E = sequence2phase(0, 0, U2)
     IL1, IL2, IL3 = sequence2phase(0, 0, I2)
     return UL1_E, UL2_E, UL3_E, IL1, IL2, IL3
 
-def sequence2phase(s0: complex, s1: complex, s2: complex) -> tuple[complex, complex, complex]:
-    '''Convert sequence componets back to phase components for a three phase
+
+def sequence2phase(
+    s0: complex, s1: complex, s2: complex
+) -> tuple[complex, complex, complex]:
+    """Convert sequence componets back to phase components for a three phase
     system.
-        
+
     This is function does the opposite of the symmetrical_component function,
     by applying the A matrix:
-        
+
         s_abc = A * s_012
-        
+
         A = [ [1, 1, 1],
              [1, a**2, a],
              [1, a, a**2] ]
-    
+
 
     Parameters
     ----------
@@ -535,29 +567,29 @@ def sequence2phase(s0: complex, s1: complex, s2: complex) -> tuple[complex, comp
             Phase voltage/current B.
         sC : complex
             Phase voltage/current C.
-    
+
     Example
     -------
     from protlib import sequence2phase, symmetrical_components, P2R, polar_str
-    
+
     UA = P2R(0, 0)
     UB = P2R(1, -120)
     UC = P2R(1, 120)
-    
+
     print("Phase voltage:")
     print(f"UA = {polar_str(UA)}, UB = {polar_str(UB)}, UC = {polar_str(UC)}")
-    
+
     print("Decomposed to Zero, negative and positive components:")
     U0, U1, U2 = symmetrical_components(UA, UB, UC)
-    
+
     print(f"U0 = {polar_str(U0)}, U1 = {polar_str(U1)}, U2 = {polar_str(U2)}")
-    
+
     print("Sequence components composed back to phase voltages:")
     UA_, UB_, UC_ = sequence2phase(U0, U1, U2)
-    
+
     print(f"UA = {polar_str(UA_)}, UB = {polar_str(UB_)},"
           f"UC = {polar_str(UC_)}")
-    
+
     # output
     Phase voltage:
     UA = 0.00∠0.00°, UB = 1.00∠-120.00°, UC = 1.00∠120.00°
@@ -566,8 +598,8 @@ def sequence2phase(s0: complex, s1: complex, s2: complex) -> tuple[complex, comp
     Sequence components composed back to phase voltages:
     UA = 0.00∠0.00°, UB = 1.00∠-120.00°,UC = 1.00∠120.00°
 
-    '''
-    
+    """
+
     # 120 degree phase shift
     _a_ = P2R(1, 120)
     # 240 degree phase shift
@@ -578,13 +610,15 @@ def sequence2phase(s0: complex, s1: complex, s2: complex) -> tuple[complex, comp
     sB = s0 + _a2_ * s1 + _a_ * s2
     # Phase C
     sC = s0 + _a_ * s1 + _a2_ * s2
-    
+
     return sA, sB, sC
+
 
 #### Loop impedances
 
-def Z_Ph_E_conv(U_Ph_E : complex, IL : complex, IE, kE : complex) -> complex:
-    '''
+
+def Z_Ph_E_conv(U_Ph_E: complex, IL: complex, IE, kE: complex) -> complex:
+    """
     Function to calculate the phase-earth loop impedance as a complex number,
     using the traditional/conventional method (U / (IL - kE * IE)). This method
     assumes that Rf = 0 and IL & IE are exactly 180 degrees apart.
@@ -607,18 +641,21 @@ def Z_Ph_E_conv(U_Ph_E : complex, IL : complex, IE, kE : complex) -> complex:
     Z_Ph_E : complex
         The phase-earth impedance loop [Ohm].
 
-    '''
-    
+    """
+
     Z_Ph_E = U_Ph_E / (IL - kE * IE)
-    
+
     return Z_Ph_E
 
-def Z_Ph_E(U_Ph_E : complex, IL : complex, IE : complex, RE_RL : float, XE_XL : float) -> complex:
-    '''
+
+def Z_Ph_E(
+    U_Ph_E: complex, IL: complex, IE: complex, RE_RL: float, XE_XL: float
+) -> complex:
+    """
     Function to calculate the phase-earth loop impedance as a complex number.
     Reference: Gerhard Ziegler - "Numerical distance protection" page 101
     Note: Convention IL and IE is ~180 degree apart
-    
+
     Parameters
     ----------
     U_Ph_E : complex
@@ -637,19 +674,22 @@ def Z_Ph_E(U_Ph_E : complex, IL : complex, IE : complex, RE_RL : float, XE_XL : 
     complex
         The phase-earth impedance loop [Ohm].
 
-    '''
+    """
     R = R_Ph_E(U_Ph_E, IL, IE, RE_RL, XE_XL)
-    
-    X = X_Ph_E(U_Ph_E, IL, IE, RE_RL, XE_XL)
-    
-    return R + X*1j
 
-def R_Ph_E(U_Ph_E : complex, IL : complex, IE : complex, RE_RL : float, XE_XL : float) -> float:
-    '''
+    X = X_Ph_E(U_Ph_E, IL, IE, RE_RL, XE_XL)
+
+    return R + X * 1j
+
+
+def R_Ph_E(
+    U_Ph_E: complex, IL: complex, IE: complex, RE_RL: float, XE_XL: float
+) -> float:
+    """
     Function to calculate the resistive part of the phase-earth loop impedance.
     Reference: Gerhard Ziegler - "Numerical distance protection" page 101 (3-48)
     Note: Convention IL and IE is ~180 degree apart
-    
+
     Parameters
     ----------
     U_Ph_E : complex
@@ -668,23 +708,27 @@ def R_Ph_E(U_Ph_E : complex, IL : complex, IE : complex, RE_RL : float, XE_XL : 
     float
         Real/resistive part of the phase-earth impedance loop [Ohm].
 
-    '''
-    
-    IR = IL - RE_RL * IE # (3-50)
-    
-    IX = IL - XE_XL * IE # (3-50)
-    
-    Rph_E = (U_Ph_E.real * IX.real + U_Ph_E.imag * IX.imag) \
-        /(IR.real * IX.real + IR.imag * IX.imag) # (3-48)
-   
+    """
+
+    IR = IL - RE_RL * IE  # (3-50)
+
+    IX = IL - XE_XL * IE  # (3-50)
+
+    Rph_E = (U_Ph_E.real * IX.real + U_Ph_E.imag * IX.imag) / (
+        IR.real * IX.real + IR.imag * IX.imag
+    )  # (3-48)
+
     return Rph_E
 
-def X_Ph_E(U_Ph_E : complex, IL : complex, IE : complex, RE_RL : float, XE_XL : float) -> float:
-    '''
+
+def X_Ph_E(
+    U_Ph_E: complex, IL: complex, IE: complex, RE_RL: float, XE_XL: float
+) -> float:
+    """
     Function to calculate the reactive part of the phase-earth loop impedance.
     Reference: Gerhard Ziegler - "Numerical distance protection" page 101 (3-49)
     Note: Convention IL and IE is ~180 degree apart
-    
+
     Parameters
     ----------
     U_Ph_E : complex
@@ -703,17 +747,19 @@ def X_Ph_E(U_Ph_E : complex, IL : complex, IE : complex, RE_RL : float, XE_XL : 
     float
         Imaginary/reactive part of the phase-earth impedance loop [Ohm].
 
-    '''
-    
-    IR = IL - RE_RL * IE # (3-50)
-    
-    IX = IL - XE_XL * IE # (3-50)
-    
-    Xph_E = (U_Ph_E.imag * IR.real - (U_Ph_E.real * IR.imag)) \
-        /(IR.real * IX.real + IR.imag * IX.imag) # (3-49)
+    """
+
+    IR = IL - RE_RL * IE  # (3-50)
+
+    IX = IL - XE_XL * IE  # (3-50)
+
+    Xph_E = (U_Ph_E.imag * IR.real - (U_Ph_E.real * IR.imag)) / (
+        IR.real * IX.real + IR.imag * IX.imag
+    )  # (3-49)
     return Xph_E
 
-def find_idx(array : Iterable, value : float) -> int:
+
+def find_idx(array: Iterable, value: float) -> int:
     """
     Function to find the equivalent index to a specific time in a array representing time
 
@@ -734,25 +780,37 @@ def find_idx(array : Iterable, value : float) -> int:
     >>> find_idx([0, 0.1, 0.2, 0.3, 0.4], 0.12)
     1
     """
-    n = [abs(i-value) for i in array]
+    n = [abs(i - value) for i in array]
     idx = n.index(min(n))
     return idx
 
-def loop(UA : complex, UB : complex, UC : complex, IA : complex, IB : complex , IC : complex, RE_RL : float, XE_XL : float, IN=None):
+
+def loop(
+    UA: complex,
+    UB: complex,
+    UC: complex,
+    IA: complex,
+    IB: complex,
+    IC: complex,
+    RE_RL: float,
+    XE_XL: float,
+    IN=None,
+):
     if IN:
         pass
     else:
         IN = IA + IB + IC
-    
+
     Z_UA_E = Z_Ph_E(UA, IA, IN, RE_RL, XE_XL)
     Z_UB_E = Z_Ph_E(UB, IB, IN, RE_RL, XE_XL)
     Z_UC_E = Z_Ph_E(UC, IC, IN, RE_RL, XE_XL)
-    
+
     Z_AB = (UA - UB) / (IA - IB)
     Z_BC = (UB - UC) / (IB - IC)
     Z_CA = (UC - UA) / (IC - IA)
-    
+
     return Z_UA_E, Z_UB_E, Z_UC_E, Z_AB, Z_BC, Z_CA
+
 
 def KN_RE_RL(kn: complex, Z1: complex) -> float:
     """
@@ -843,7 +901,7 @@ def conv_kn(RE_RL: float, XE_XL: float, Z1: complex) -> complex:
     """
     KNr = (RE_RL) * cos(phase(Z1))
     KNx = (XE_XL) * sin(phase(Z1))
-    return (KNr + KNx * 1j) / (Z1/abs(Z1))
+    return (KNr + KNx * 1j) / (Z1 / abs(Z1))
 
 
 def calc_kn(Z1: complex, Z0: complex) -> complex:
