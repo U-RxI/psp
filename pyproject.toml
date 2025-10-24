@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "comtrade>=0.1.2",
+    "psp-comtrade",
     "psp-core @ git+https://github.com/U-RxI/psp-core",
     "psp-dsp @ git+https://github.com/U-RxI/psp-dsp",
     "psp-plotting @ git+https://github.com/U-RxI/psp-plotting",
@@ -17,4 +18,5 @@ psp-relay = { git = "https://github.com/U-RxI/psp-relay" }
 psp-plotting = { git = "https://github.com/U-RxI/psp-plotting" }
 psp-dsp = { git = "https://github.com/U-RxI/psp-dsp" }
 psp-core = { git = "https://github.com/U-RxI/psp-core" }
+psp-comtrade = { git = "https://github.com/U-RxI/psp-comtrade" }
 
