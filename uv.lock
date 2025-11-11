@@ -444,7 +444,7 @@ dependencies = [
 [[package]]
 name = "psp-plotting"
 version = "0.1.0"
-source = { git = "https://github.com/U-RxI/psp-plotting#92f87d9165dab790492263dd59c9e670df84f51d" }
+source = { git = "https://github.com/U-RxI/psp-plotting#73a393830c81bf2a693aac9a936c2a18bc704a79" }
 dependencies = [
     { name = "matplotlib" },
     { name = "numpy" },
@@ -454,8 +454,9 @@ dependencies = [
 [[package]]
 name = "psp-relay"
 version = "0.1.0"
-source = { git = "https://github.com/U-RxI/psp-relay#8cab5acceacf7f11c2a824a77119cbdfff89e7b4" }
+source = { git = "https://github.com/U-RxI/psp-relay#ad3e77c2a9da88cb255c57a494b464d3041662cd" }
 dependencies = [
+    { name = "psp-plotting" },
     { name = "shapely" },
 ]
 
