@@ -1,12 +1,16 @@
 from psp.dsp.filters import true_rms
 import comtrade
 import numpy as np
+from pathlib import Path
+
+DATA = Path(__file__).parents[1] / "data"
+RESULTS = Path(__file__).parent / "results"
 
 
 # Associated with testfile1_50Hz.cfg
 def test_rms_1():
-    filename_cfg = "./tests/data/50Hz/testfile1_50Hz.CFG"
-    filename_dat = "./tests/data/50Hz/testfile1_50Hz.DAT"
+    filename_cfg = f"{DATA}/50Hz/testfile1_50Hz.CFG"
+    filename_dat = f"{DATA}/50Hz/testfile1_50Hz.DAT"
     rec = comtrade.load(filename_cfg, filename_dat)
 
     freq = rec.cfg.frequency  # system frequency
@@ -20,13 +24,13 @@ def test_rms_1():
     IL1_rms = true_rms(IL1, N)
 
     UL1_rms_res = np.loadtxt(
-        "./tests/results/50Hz/testfile1_50Hz_UL1_rms.csv",
+        f"{RESULTS}/50Hz/testfile1_50Hz_UL1_rms.csv",
         delimiter=",",
         dtype=np.float64,
     )
 
     IL1_rms_res = np.loadtxt(
-        "./tests/results/50Hz/testfile1_50Hz_IL1_rms.csv",
+        f"{RESULTS}/50Hz/testfile1_50Hz_IL1_rms.csv",
         delimiter=",",
         dtype=np.float64,
     )
@@ -38,8 +42,8 @@ def test_rms_1():
 
 # Associated with testfile2_50Hz.cfg
 def test_rms_2():
-    filename_cfg = "./tests/data/50Hz/testfile2_50Hz.CFG"
-    filename_dat = "./tests/data/50Hz/testfile2_50Hz.DAT"
+    filename_cfg = f"{DATA}/50Hz/testfile2_50Hz.CFG"
+    filename_dat = f"{DATA}/50Hz/testfile2_50Hz.DAT"
     rec = comtrade.load(filename_cfg, filename_dat)
 
     freq = rec.cfg.frequency  # system frequency
@@ -61,33 +65,33 @@ def test_rms_2():
     IL3_rms = true_rms(IL3, N)
 
     UL1_rms_res = np.loadtxt(
-        "./tests/results/50Hz/testfile2_50Hz_UL1_rms.csv",
+        f"{RESULTS}/50Hz/testfile2_50Hz_UL1_rms.csv",
         delimiter=",",
         dtype=np.float64,
     )
     UL2_rms_res = np.loadtxt(
-        "./tests/results/50Hz/testfile2_50Hz_UL2_rms.csv",
+        f"{RESULTS}/50Hz/testfile2_50Hz_UL2_rms.csv",
         delimiter=",",
         dtype=np.float64,
     )
     UL3_rms_res = np.loadtxt(
-        "./tests/results/50Hz/testfile2_50Hz_UL3_rms.csv",
+        f"{RESULTS}/50Hz/testfile2_50Hz_UL3_rms.csv",
         delimiter=",",
         dtype=np.float64,
     )
 
     IL1_rms_res = np.loadtxt(
-        "./tests/results/50Hz/testfile2_50Hz_IL1_rms.csv",
+        f"{RESULTS}/50Hz/testfile2_50Hz_IL1_rms.csv",
         delimiter=",",
         dtype=np.float64,
     )
     IL2_rms_res = np.loadtxt(
-        "./tests/results/50Hz/testfile2_50Hz_IL2_rms.csv",
+        f"{RESULTS}/50Hz/testfile2_50Hz_IL2_rms.csv",
         delimiter=",",
         dtype=np.float64,
     )
     IL3_rms_res = np.loadtxt(
-        "./tests/results/50Hz/testfile2_50Hz_IL3_rms.csv",
+        f"{RESULTS}/50Hz/testfile2_50Hz_IL3_rms.csv",
         delimiter=",",
         dtype=np.float64,
     )
@@ -103,8 +107,8 @@ def test_rms_2():
 
 # Associated with testfile3_50Hz.cfg
 def test_rms_3():
-    filename_cfg = "./tests/data/50Hz/testfile3_50Hz.CFG"
-    filename_dat = "./tests/data/50Hz/testfile3_50Hz.DAT"
+    filename_cfg = f"{DATA}/50Hz/testfile3_50Hz.CFG"
+    filename_dat = f"{DATA}/50Hz/testfile3_50Hz.DAT"
     rec = comtrade.load(filename_cfg, filename_dat)
 
     freq = rec.cfg.frequency  # system frequency
@@ -126,33 +130,33 @@ def test_rms_3():
     IL3_rms = true_rms(IL3, N)
 
     UL1_rms_res = np.loadtxt(
-        "./tests/results/50Hz/testfile3_50Hz_UL1_rms.csv",
+        f"{RESULTS}/50Hz/testfile3_50Hz_UL1_rms.csv",
         delimiter=",",
         dtype=np.float64,
     )
     UL2_rms_res = np.loadtxt(
-        "./tests/results/50Hz/testfile3_50Hz_UL2_rms.csv",
+        f"{RESULTS}/50Hz/testfile3_50Hz_UL2_rms.csv",
         delimiter=",",
         dtype=np.float64,
     )
     UL3_rms_res = np.loadtxt(
-        "./tests/results/50Hz/testfile3_50Hz_UL3_rms.csv",
+        f"{RESULTS}/50Hz/testfile3_50Hz_UL3_rms.csv",
         delimiter=",",
         dtype=np.float64,
     )
 
     IL1_rms_res = np.loadtxt(
-        "./tests/results/50Hz/testfile3_50Hz_IL1_rms.csv",
+        f"{RESULTS}/50Hz/testfile3_50Hz_IL1_rms.csv",
         delimiter=",",
         dtype=np.float64,
     )
     IL2_rms_res = np.loadtxt(
-        "./tests/results/50Hz/testfile3_50Hz_IL2_rms.csv",
+        f"{RESULTS}/50Hz/testfile3_50Hz_IL2_rms.csv",
         delimiter=",",
         dtype=np.float64,
     )
     IL3_rms_res = np.loadtxt(
-        "./tests/results/50Hz/testfile3_50Hz_IL3_rms.csv",
+        f"{RESULTS}/50Hz/testfile3_50Hz_IL3_rms.csv",
         delimiter=",",
         dtype=np.float64,
     )

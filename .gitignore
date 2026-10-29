@@ -13,3 +13,5 @@ wheels/
 .idea/
 # Ignore workspace settings
 .idea/workspace.xml
+# Jupyter
+.ipynb_checkpoints/

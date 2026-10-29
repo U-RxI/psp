@@ -1,22 +1,31 @@
 [project]
 name = "psp"
-version = "0.1.0"
-description = "Add your description here"
+version = "0.2.0"
+description = "Python library for power system protection."
 readme = "README.md"
+license = "MIT"
 requires-python = ">=3.12"
 dependencies = [
     "comtrade>=0.1.2",
-    "psp-comtrade @ git+https://github.com/U-RxI/psp-comtrade",
-    "psp-core @ git+https://github.com/U-RxI/psp-core",
-    "psp-dsp @ git+https://github.com/U-RxI/psp-dsp",
-    "psp-plotting @ git+https://github.com/U-RxI/psp-plotting",
-    "psp-relay @ git+https://github.com/U-RxI/psp-relay",
+    "matplotlib>=3.10.6",
+    "numpy>=2.3.4",
+    "scipy>=1.16.1",
+    "shapely>=2.1.1",
 ]
 
-[tool.uv.sources]
-psp-relay = { git = "https://github.com/U-RxI/psp-relay" }
-psp-plotting = { git = "https://github.com/U-RxI/psp-plotting" }
-psp-dsp = { git = "https://github.com/U-RxI/psp-dsp" }
-psp-core = { git = "https://github.com/U-RxI/psp-core" }
-psp-comtrade = { git = "https://github.com/U-RxI/psp-comtrade" }
+[build-system]
+requires = ["setuptools>=77.0"]
+build-backend = "setuptools.build_meta"
 
+[dependency-groups]
+dev = [
+    "ipykernel>=6.30.0",
+    "jupyterlab>=4.4.0",
+    "jupytext>=1.17.0",
+    "nbmake>=1.5.5",
+    "pytest>=8.4.2",
+    "ruff>=0.14.2",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
